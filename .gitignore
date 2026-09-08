@@ -8,8 +8,6 @@ zed/.config/zed/*
 agents/.claude/settings.local.json
 
 agents/.cursor/*
-!agents/.cursor/rules/AGENTS.md
 
 agents/.claude/*
-!agents/.claude/CLAUDE.md
 !agents/.claude/skills
