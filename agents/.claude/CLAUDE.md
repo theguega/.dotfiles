@@ -1,0 +1,5 @@
+- do not co-author commits
+- test only code assumption, do not test what the code already do that you know
+- target for concise, clean answers
+- generated code should be idiomatic, simple and clean
+- no multi-line comments. nor comments to describe a change in the codebase when asked to do a change. the git commit is what helps up track.

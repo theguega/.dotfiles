@@ -69,9 +69,10 @@ alias httpserv='python -m http.server 8000'
 alias ..='cd ..' ...='cd ../..' ....='cd ../../..' .....='cd ../../../..' ......='cd ../../../../..'
 alias doc="$HOME/Documents" dow="$HOME/Downloads"
 
+alias tuicr-pr="tuicr -r \$(git merge-base main HEAD)..HEAD"
+
 alias wts='wt switch'
 alias web-md='bunx defuddle parse'
-alias audio-transc='uvx audio-transc'
 
 # ── host / machine overrides ────────────────────────────────
 [[ -r ~/.zsh/local.zshrc ]] && source ~/.zsh/local.zshrc
