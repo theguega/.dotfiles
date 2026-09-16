@@ -1,6 +1,8 @@
 # ~/.zshrc — interactive shells only.
 [[ -o interactive ]] || return
 
+export TERM=xterm-256color
+
 bindkey -e
 bindkey '^[[1;5C' forward-word '^[[1;5D' backward-word   # ctrl+arrows
 bindkey '^[[1;3C' forward-word '^[[1;3D' backward-word   # alt+arrows
