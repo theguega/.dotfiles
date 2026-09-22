@@ -11,3 +11,4 @@ agents/.cursor/*
 
 agents/.claude/*
 !agents/.claude/skills
+agents/.claude/skills/synced/
