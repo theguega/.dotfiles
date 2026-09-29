@@ -73,7 +73,6 @@ alias doc="$HOME/Documents" dow="$HOME/Downloads"
 
 alias tuicr-pr="tuicr -r \$(git merge-base main HEAD)..HEAD"
 
-alias wts='wt switch'
 alias web-md='bunx defuddle parse'
 
 # ── host / machine overrides ────────────────────────────────
