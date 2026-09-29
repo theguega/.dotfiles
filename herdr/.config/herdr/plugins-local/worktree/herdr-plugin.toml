@@ -1,0 +1,20 @@
+id = "theo.worktree"
+name = "Worktree"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Create theo/<name> worktrees next to the main clone"
+platforms = ["linux", "macos"]
+
+[[actions]]
+id = "new"
+title = "Worktree: new theo/<name>"
+contexts = ["workspace"]
+command = ["bash", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin \"$HERDR_PLUGIN_ID\" --entrypoint prompt --cwd \"$(jq -r '.workspace_cwd // .focused_pane_cwd' <<<\"$HERDR_PLUGIN_CONTEXT_JSON\")\" --focus"]
+
+[[panes]]
+id = "prompt"
+title = "New worktree"
+placement = "popup"
+width = 60
+height = 6
+command = ["bash", "new.sh"]
