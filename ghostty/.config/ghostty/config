@@ -11,3 +11,6 @@ font-thicken=true
 font-thicken-strength=1
 cursor-style=block
 keybind = shift+enter=text:\n
+# send option+arrows as CSI (xterm) instead of ESC b / ESC f
+keybind = alt+left=csi:1;3D
+keybind = alt+right=csi:1;3C
