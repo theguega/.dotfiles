@@ -16,19 +16,34 @@ manage_ssh_config = true
 [experimental]
 kitty_graphics = true
 
-# prefix is ctrl+b; herdr defaults cover splits, tabs, zoom, sidebar
+# prefix is ctrl+b. new_worktree and open_notification_target are blank so the
+# custom commands below own prefix+shift+g and prefix+o. The settings rows for
+# those native actions stay unset; that is the binding, not a missing key.
+# prefix+v and prefix+l are tuicr and lazygit panes, so split-right is
+# prefix+% and focus-right is prefix+Right.
 [keys]
 new_worktree = ""
 open_worktree = "prefix+shift+o"
 remove_worktree = "prefix+shift+k"
+open_notification_target = ""
 next_agent = "prefix+a"
 previous_agent = "prefix+shift+a"
+split_vertical = "prefix+percent"
+focus_pane_right = "prefix+right"
 
 [[keys.command]]
 key = "prefix+shift+g"
-type = "plugin_action"
-command = "theo.worktree.new"
+type = "popup"
+command = "exec \"$HOME/Developer/drover/bin/herdr-wt\" prompt"
+width = 70
+height = 8
 description = "Worktree: new, branch or #pr"
+
+[[keys.command]]
+key = "prefix+o"
+type = "shell"
+command = "id=$(herdr agent list | jq -r '[.result.agents[] | select(.agent_status==\"blocked\" or .agent_status==\"done\")] | sort_by(if .agent_status==\"blocked\" then 0 else 1 end) | .[0].pane_id // empty'); [ -n \"$id\" ] && herdr agent focus \"$id\""
+description = "Jump to the agent that needs you"
 
 [[keys.command]]
 key = "prefix+shift+v"
@@ -39,9 +54,21 @@ height = "90%"
 description = "Review diff"
 
 [[keys.command]]
+key = "prefix+v"
+type = "pane"
+command = "tuicr"
+description = "Review diff in a pane"
+
+[[keys.command]]
 key = "prefix+shift+l"
 type = "popup"
 command = "lazygit"
 width = "90%"
 height = "90%"
 description = "Git"
+
+[[keys.command]]
+key = "prefix+l"
+type = "pane"
+command = "lazygit"
+description = "Git in a pane"
