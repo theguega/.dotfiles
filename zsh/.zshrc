@@ -72,6 +72,7 @@ alias ..='cd ..' ...='cd ../..' ....='cd ../../..' .....='cd ../../../..' ......
 alias doc="$HOME/Documents" dow="$HOME/Downloads"
 
 alias tuicr-pr="tuicr -r \$(git merge-base main HEAD)..HEAD"
+alias wt='herdr-wt'
 
 alias web-md='bunx defuddle parse'
 
