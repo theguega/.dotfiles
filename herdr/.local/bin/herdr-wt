@@ -3,11 +3,45 @@
 #   herdr-wt <name>          new theo/<name> from origin's default branch
 #   herdr-wt <branch>        existing local or remote branch (someone else's too)
 #   herdr-wt <#123|123>      GitHub pull request head
+#   herdr-wt                 list worktrees of this repo, or of every repo in ~/Developer
 # Extra args are passed to herdr (default --focus). Prints herdr's JSON.
 set -euo pipefail
 
 prefix="${HERDR_WORKTREE_PREFIX:-theo}"
-arg="${1:?usage: herdr-wt <name|branch|#pr> [herdr args]}"
+
+# ● working  ◆ blocked  ✓ done  ○ open in herdr  · closed
+list() {
+  local open root path branch mark state changes ab
+  open=$(herdr workspace list 2>/dev/null \
+    | jq -r '.result.workspaces[] | select(.worktree) | "\(.worktree.checkout_path)\t\(.agent_status)"' || true)
+  for root in "$@"; do
+    git -C "$root" worktree list --porcelain | awk '
+      /^worktree /{p=substr($0,10)} /^branch /{b=substr($0,19)} /^detached/{b="(detached)"}
+      /^$/{if (n++) print p "\t" b; b=""}' \
+    | { first=1; while IFS=$'\t' read -r path branch; do
+        ((first)) && printf '%s\n' "$(basename "$root")" && first=0
+        state=$(awk -F'\t' -v p="$path" '$1==p{print $2}' <<<"$open")
+        case "$state" in working) mark=●;; blocked) mark=◆;; done) mark=✓;; "") mark=·;; *) mark=○;; esac
+        if [[ -d "$path" ]]; then
+          changes=$(git -C "$path" status --porcelain | wc -l | tr -d ' ')
+          ab=$(git -C "$path" rev-list --left-right --count '@{u}...HEAD' 2>/dev/null | awk '{print "↓"$1" ↑"$2}')
+        else
+          changes=missing ab="prune"
+        fi
+        printf '  %s %-34s %-10s %s\n' "$mark" "$branch" "${changes/#0/clean}" "${ab:-no upstream}"
+      done; }
+  done
+}
+
+if [[ $# -eq 0 ]]; then
+  if root=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null); then
+    list "$(dirname "$root")"
+  else
+    list $(for d in ~/Developer/*/; do [[ -d "$d.git" ]] && echo "${d%/}"; done)
+  fi
+  exit
+fi
+arg=$1
 shift
 flags=("${@:---focus}")
 
