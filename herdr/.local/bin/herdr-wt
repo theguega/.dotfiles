@@ -24,7 +24,7 @@ list() {
         case "$state" in working) mark=●;; blocked) mark=◆;; done) mark=✓;; "") mark=·;; *) mark=○;; esac
         if [[ -d "$path" ]]; then
           changes=$(git -C "$path" status --porcelain | wc -l | tr -d ' ')
-          ab=$(git -C "$path" rev-list --left-right --count '@{u}...HEAD' 2>/dev/null | awk '{print "↓"$1" ↑"$2}')
+          ab=$(git -C "$path" rev-list --left-right --count '@{u}...HEAD' 2>/dev/null | awk '{print "↓"$1" ↑"$2}' || true)
         else
           changes=missing ab="prune"
         fi
