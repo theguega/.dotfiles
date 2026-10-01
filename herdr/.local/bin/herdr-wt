@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Open a branch as a herdr worktree workspace next to the main clone.
+#   herdr-wt <name>          new theo/<name> from origin's default branch
+#   herdr-wt <branch>        existing local or remote branch (someone else's too)
+#   herdr-wt <#123|123>      GitHub pull request head
+# Extra args are passed to herdr (default --focus). Prints herdr's JSON.
+set -euo pipefail
+
+prefix="${HERDR_WORKTREE_PREFIX:-theo}"
+arg="${1:?usage: herdr-wt <name|branch|#pr> [herdr args]}"
+shift
+flags=("${@:---focus}")
+
+root=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+repo=$(basename "$root")
+git -C "$root" fetch -q --prune origin
+
+if [[ "$arg" =~ ^#?([0-9]+)$ ]]; then
+  branch="pr/${BASH_REMATCH[1]}"
+  git -C "$root" fetch -q origin "+pull/${BASH_REMATCH[1]}/head:$branch"
+elif git -C "$root" show-ref -q --verify "refs/heads/$arg" \
+  || git -C "$root" show-ref -q --verify "refs/remotes/origin/$arg"; then
+  branch="$arg"
+else
+  branch="$prefix/${arg#"$prefix/"}"
+fi
+
+slug=${branch//\//-}
+path="$(dirname "$root")/$repo.$slug"
+label=${slug#"$prefix-"}
+
+existing=$(git -C "$root" worktree list --porcelain \
+  | awk -v b="branch refs/heads/$branch" '/^worktree /{p=substr($0,10)} $0==b{print p}')
+
+if [[ -n "$existing" ]]; then
+  exec herdr worktree open --cwd "$root" --path "$existing" --label "$label" "${flags[@]}"
+elif git -C "$root" show-ref -q --verify "refs/heads/$branch"; then
+  git -C "$root" worktree add -q "$path" "$branch"
+elif git -C "$root" show-ref -q --verify "refs/remotes/origin/$branch"; then
+  git -C "$root" worktree add -q --track -b "$branch" "$path" "origin/$branch"
+else
+  base=$(git -C "$root" symbolic-ref -q --short refs/remotes/origin/HEAD || echo origin/main)
+  exec herdr worktree create --cwd "$root" --branch "$branch" --base "$base" \
+    --path "$path" --label "$label" "${flags[@]}"
+fi
+exec herdr worktree open --cwd "$root" --path "$path" --label "$label" "${flags[@]}"

@@ -1,6 +1,14 @@
 onboarding = false
+
 [theme]
 name = "catppuccin-latte"
+
+[ui]
+hide_tab_bar_when_single_tab = true
+pane_scrollbars = false
+
+[ui.toast]
+delivery = "system"
 
 [remote]
 manage_ssh_config = true
@@ -8,13 +16,32 @@ manage_ssh_config = true
 [experimental]
 kitty_graphics = true
 
+# prefix is ctrl+b; herdr defaults cover splits, tabs, zoom, sidebar
 [keys]
 new_worktree = ""
 open_worktree = "prefix+shift+o"
 remove_worktree = "prefix+shift+k"
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
 
 [[keys.command]]
 key = "prefix+shift+g"
 type = "plugin_action"
 command = "theo.worktree.new"
-description = "Worktree: new theo/<name>"
+description = "Worktree: new, branch or #pr"
+
+[[keys.command]]
+key = "prefix+shift+v"
+type = "popup"
+command = "tuicr"
+width = "90%"
+height = "90%"
+description = "Review diff"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "popup"
+command = "lazygit"
+width = "90%"
+height = "90%"
+description = "Git"

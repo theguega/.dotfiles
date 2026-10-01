@@ -28,7 +28,7 @@ dotfiles_is_desktop() {
 }
 
 stow_packages_for_context() {
-    local packages=(zsh nvim git ohmyposh bat lazygit yazi)
+    local packages=(zsh nvim git ohmyposh bat lazygit yazi herdr)
 
     if dotfiles_is_desktop; then
         packages+=(ghostty zed)
