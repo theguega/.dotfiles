@@ -3,7 +3,8 @@
 #   herdr-wt <name>          new theo/<name> from origin's default branch
 #   herdr-wt <branch>        existing local or remote branch (someone else's too)
 #   herdr-wt <#123|123>      GitHub pull request head
-#   herdr-wt                 list worktrees of this repo, or of every repo in ~/Developer
+#   herdr-wt [ls]            list worktrees of this repo, or of every repo in ~/Developer
+#   herdr-wt rm [-f] [path]  remove a worktree (default: this one), its workspace, and its branch if merged
 # Extra args are passed to herdr (default --focus). Prints herdr's JSON.
 set -euo pipefail
 
@@ -32,6 +33,32 @@ list() {
       done; }
   done
 }
+
+rm_worktree() {
+  local force=0 path root branch ws
+  [[ "${1:-}" == -f ]] && force=1 && shift
+  path=$(git -C "${1:-.}" rev-parse --show-toplevel)
+  root=$(dirname "$(git -C "$path" rev-parse --path-format=absolute --git-common-dir)")
+  [[ "$path" == "$root" ]] && { echo "this is the main clone, not a worktree" >&2; exit 1; }
+  if ((!force)) && [[ -n $(git -C "$path" status --porcelain) ]]; then
+    echo "uncommitted changes in $path, use rm -f" >&2; exit 1
+  fi
+  branch=$(git -C "$path" branch --show-current)
+  ws=$(herdr workspace list | jq -r --arg p "$path" '.result.workspaces[] | select(.worktree.checkout_path == $p) | .workspace_id')
+
+  cd "$root"
+  git worktree remove --force "$path"
+  if [[ -n "$branch" ]]; then
+    git branch -d -q "$branch" 2>/dev/null && echo "removed $branch" || echo "removed checkout, kept $branch (not merged)"
+  fi
+  # last: this may be the workspace running this shell
+  [[ -z "$ws" ]] || herdr workspace close "$ws" >/dev/null
+}
+
+case "${1:-}" in
+  rm) shift; rm_worktree "$@"; exit ;;
+  ls) shift ;;
+esac
 
 if [[ $# -eq 0 ]]; then
   if root=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null); then
