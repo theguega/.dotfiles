@@ -77,6 +77,16 @@ Details live in `homebrew/Brewfile` and in `install/linux.sh` (desktop `apt` pac
 - **macOS (casks):** Ghostty, Zed, Cursor, VS Code, Raycast, Aerospace, fonts, etc. (see Brewfile `if OS.mac?` block).
 - **Linux:** Same CLI formulae via Linuxbrew; desktop packages such as VLC and `gnome-shell-extension-manager` via `apt` when you choose the UI step; JetBrains Mono Nerd Font downloaded to `~/.local/share/fonts`.
 
+## paperdb
+
+The CLI step (`-c`) also sets up [paperdb](https://github.com/theguega/paperdb), my paper library (`install/lib/paperdb.sh`):
+
+1. `cargo install --git https://github.com/theguega/paperdb` (re-run to update)
+2. clones the private library `git@github.com:theguega/papers.git` to `~/papers`, or runs `paperdb sync` if it is already there
+3. `paperdb skill install` → `~/.claude/skills/paperdb`
+
+Cloning the library needs GitHub SSH access on the machine; without it the step warns and carries on.
+
 ## Customization
 
 ### New or updated dotfiles

@@ -5,6 +5,7 @@ source "$DOTFILES_ROOT/install/lib/utils.sh"
 source "$DOTFILES_ROOT/install/lib/env.sh"
 source "$DOTFILES_ROOT/install/lib/brewfile.sh"
 source "$DOTFILES_ROOT/install/lib/zsh-env.sh"
+source "$DOTFILES_ROOT/install/lib/paperdb.sh"
 source "$DOTFILES_ROOT/install/macos.sh"
 source "$DOTFILES_ROOT/install/linux.sh"
 
@@ -222,6 +223,9 @@ run_darwin() {
     if $want_cli; then
         run_with_progress "Installing Homebrew formulae" macos_brew_install_formulas_only
     fi
+    if $want_cli; then
+        run_with_progress "Setting up paperdb" setup_paperdb
+    fi
     if $want_ui; then
         run_with_progress "Installing Homebrew casks" macos_brew_install_casks_only
     fi
@@ -252,6 +256,9 @@ run_linux() {
 
     if $want_cli; then
         run_with_progress "Installing Homebrew CLI packages" linux_brew_install_cli
+    fi
+    if $want_cli; then
+        run_with_progress "Setting up paperdb" setup_paperdb
     fi
     if $want_ui; then
         run_with_progress "Installing desktop packages and fonts" linux_install_ui_packages
