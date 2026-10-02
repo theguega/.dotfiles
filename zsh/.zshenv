@@ -3,6 +3,7 @@ typeset -U path fpath   # drop duplicate entries, first occurrence wins
 
 export LANG="${LANG:-en_US.UTF-8}"
 export EDITOR=nvim VISUAL=nvim
+export HERDR_WORKTREE_PREFIX=theo
 
 # Host-specific: Homebrew/Nix, toolchain flags, locale overrides.
 [[ -r ~/.zsh/local.zshenv ]] && source ~/.zsh/local.zshenv
