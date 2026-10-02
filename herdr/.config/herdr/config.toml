@@ -19,8 +19,7 @@ kitty_graphics = true
 # prefix is ctrl+b. new_worktree and open_notification_target are blank so the
 # custom commands below own prefix+shift+g and prefix+o. The settings rows for
 # those native actions stay unset; that is the binding, not a missing key.
-# prefix+v and prefix+l are tuicr and lazygit panes, so split-right is
-# prefix+% and focus-right is prefix+Right.
+# prefix+t is tuicr and prefix+l is lazygit, so focus-right is prefix+Right.
 [keys]
 new_worktree = ""
 open_worktree = "prefix+shift+o"
@@ -28,7 +27,6 @@ remove_worktree = "prefix+shift+k"
 open_notification_target = ""
 next_agent = "prefix+a"
 previous_agent = "prefix+shift+a"
-split_vertical = "prefix+percent"
 focus_pane_right = "prefix+right"
 
 [[keys.command]]
@@ -46,7 +44,7 @@ command = "id=$(herdr agent list | jq -r '[.result.agents[] | select(.agent_stat
 description = "Jump to the agent that needs you"
 
 [[keys.command]]
-key = "prefix+shift+v"
+key = "prefix+shift+t"
 type = "popup"
 command = "tuicr"
 width = "90%"
@@ -54,7 +52,7 @@ height = "90%"
 description = "Review diff"
 
 [[keys.command]]
-key = "prefix+v"
+key = "prefix+t"
 type = "pane"
 command = "tuicr"
 description = "Review diff in a pane"
