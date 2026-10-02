@@ -34,7 +34,7 @@ focus_pane_right = "prefix+right"
 [[keys.command]]
 key = "prefix+shift+g"
 type = "popup"
-command = "HERDR_WORKTREE_PREFIX=theo exec \"$HOME/Developer/drover/bin/herdr-wt\" prompt"
+command = "exec \"$HOME/.local/bin/herdr-wt\" prompt"
 width = 70
 height = 8
 description = "Worktree: new, branch or #pr"

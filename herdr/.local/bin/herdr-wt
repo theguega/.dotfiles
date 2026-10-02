@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Keep this file identical to the copy stowed at ~/.local/bin/herdr-wt.
 # Open a branch as a herdr worktree workspace next to the main clone.
 #   herdr-wt <name>          new branch from origin's default branch
 #   herdr-wt <branch>        existing local or remote branch
