@@ -7,6 +7,7 @@
 #   herdr-wt [ls]            list worktrees of this repo, or of every repo under REPOS_ROOT
 #   herdr-wt rm [-f] [path]  remove a worktree (default: this one), its workspace, and its branch if merged
 # Extra args are passed to herdr (default --focus). Prints herdr's JSON.
+# A new checkout gets the main clone's untracked files that match .worktreeinclude.
 #
 # REPOS_ROOT defaults to ~/Developer. HERDR_WORKTREE_PREFIX puts new names under a prefix (dev/cache).
 # Native `herdr worktree` creates a branch from HEAD when the name exists only
@@ -122,7 +123,11 @@ elif git -C "$root" show-ref -q --verify "refs/remotes/origin/$branch"; then
   git -C "$root" worktree add -q --track -b "$branch" "$path" "origin/$branch"
 else
   base=$(git -C "$root" symbolic-ref -q --short refs/remotes/origin/HEAD || echo origin/main)
-  exec herdr worktree create --cwd "$root" --branch "$branch" --base "$base" \
-    --path "$path" --label "$label" "${flags[@]}"
+  git -C "$root" worktree add -q --no-track -b "$branch" "$path" "$base"
+fi
+# untracked files of the main clone matching .worktreeinclude (gitignore syntax), e.g. .env
+if [[ -f "$root/.worktreeinclude" ]]; then
+  git -C "$root" ls-files -z --others --ignored --exclude-from="$root/.worktreeinclude" \
+    | tar -C "$root" --null -T - -cf - | tar -C "$path" -xf -
 fi
 exec herdr worktree open --cwd "$root" --path "$path" --label "$label" "${flags[@]}"
