@@ -36,9 +36,18 @@ and only re-run with `--yes` after he explicitly OKs it. Never pass `--yes` on a
 | "my activity this week → weekly meeting summary" | `ocu week` (markdown) → save to a file, edit if needed → `ocu page append <weekly page id> --file f.md`. Weekly pages live under `ML wiki / Weekly meetings / <Month> / <YYYY-MM-DD>`; names can be duplicated, so pass the id from the error list. |
 | "what are triage tickets" / "can I work on something" | `ocu triage` · `ocu triage --free` → `ocu take <id>` |
 | "next tasks in software" | `ocu tasks --in Software [--free\|--mine] [-n 20]` (also folders/lists: `--in "Software/cell stack"`) |
+| "create a task" | `ocu create "<title>" --in <list> [--file f.md\|--text …] [--assign me] [--parent <id>] [--tag t] [--set priority=high --set "<Field>=<value>"]` |
 | "create a doc under Ops" | `ocu doc new "<name>" --in Ops [--file f.md]` |
 | "what are people doing" | `ocu activity --days 7` · `--person <name>` · `ocu week --person <name>` |
 | OKR overview / my OKR inbox / recent changes | `ocu okr` · `ocu okr mine` · `ocu okr changes --days 7` |
+
+## Filing a bug (Triage)
+1. Diagnose tersely: symptom, repro, suspected area/code. Check duplicates first: `ocu search "<key words>" --type task --in Triage`.
+2. Write the body to a scratch file: `## Symptom` · `## Repro` · `## Suspected cause`.
+3. `ocu create "<title>" --in Triage --file bug.md --set "Issue Severity=Critical|Major|Minor" --set "Product/area=ml|Software|Hardware|datavis|QOL" --set "Reported By=<name>"`
+   — show the dry run, then `--yes` after OK.
+4. If a GitHub issue is wanted: `gh issue create -R claireai-inc/opalin --title "<same title>" --body-file bug.md`, then
+   cross-link with `ocu comment <task id> "GitHub: <issue url>"` (dry run → OK → `--yes`).
 
 ## Notes
 - Search runs on a local index (docs + tasks) that auto-syncs incrementally when >15 min old; `ocu sync` forces it, `ocu sync --full` rebuilds (~70 s). Comment text is not indexed.
