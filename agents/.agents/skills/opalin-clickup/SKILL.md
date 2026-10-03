@@ -17,7 +17,7 @@ experiments, follow the team, and pick up Triage work. So:
 - He writes quickly, sometimes in French/English mix; keep his meaning, fix only typos when asked.
 
 
-`ocu` (on PATH via ~/.cargo/bin; source github.com/theguega/opalin-clickup (private) — if missing: `git clone git@github.com:theguega/opalin-clickup.git ~/Developer/opalin-clickup && cargo install --path ~/Developer/opalin-clickup`) prints compact tables
+`ocu` (on PATH via ~/.cargo/bin; source github.com/theguega/ocu (private) — if missing: `git clone git@github.com:theguega/ocu.git ~/Developer/ocu && cargo install --path ~/Developer/ocu`) prints compact tables
 `label[N]{fields}:` and ends with `help:` next steps. Run with no args for a digest.
 
 **Writes are dry runs unless `--yes`.** Run once without `--yes`, show Theo what will change,
