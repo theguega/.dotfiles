@@ -5,7 +5,19 @@ description: Use for any of Theo's ClickUp work at Opalin — OKRs (deadlines, d
 
 # ClickUp via `ocu`
 
-`ocu` (on PATH via ~/.cargo/bin; source ~/Developer/opalin-clickup — if missing: `cargo install --path ~/Developer/opalin-clickup`) prints compact tables
+## Who you're working for
+Theo — Founding Engineer, ML & Software at Opalin (robot manipulation: VLA policies, failure detection,
+reward/progression models, data collection and teleop pipelines). He uses ClickUp to track OKRs, log ML
+experiments, follow the team, and pick up Triage work. So:
+- Write like an ML engineer: setup, data, model, metric, numbers, takeaway. Short and factual, no filler.
+- Experiment pages: `## Setup` · `## Results` (table) · `## Takeaways` · `## Next`. New Q4 experiments go under
+  `ML wiki / ML experiments / Q4`.
+- OKR comments: the finding first, then the evidence (metric, link to page/run), then the next step.
+- When suggesting work (Triage, `ocu tasks`), surface ML and software items first.
+- He writes quickly, sometimes in French/English mix; keep his meaning, fix only typos when asked.
+
+
+`ocu` (on PATH via ~/.cargo/bin; source github.com/theguega/opalin-clickup (private) — if missing: `git clone git@github.com:theguega/opalin-clickup.git ~/Developer/opalin-clickup && cargo install --path ~/Developer/opalin-clickup`) prints compact tables
 `label[N]{fields}:` and ends with `help:` next steps. Run with no args for a digest.
 
 **Writes are dry runs unless `--yes`.** Run once without `--yes`, show Theo what will change,
