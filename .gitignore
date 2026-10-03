@@ -8,8 +8,9 @@ zed/.config/zed/*
 agents/.claude/settings.local.json
 
 agents/.cursor/*
+!agents/.cursor/rules
 
 agents/.claude/*
 !agents/.claude/skills
-agents/.claude/skills/synced/
-agents/.claude/skills/paperdb/
+agents/.agents/skills/synced/
+agents/.agents/skills/paperdb/

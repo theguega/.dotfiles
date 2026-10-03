@@ -28,7 +28,7 @@ dotfiles_is_desktop() {
 }
 
 stow_packages_for_context() {
-    local packages=(zsh nvim git ohmyposh bat lazygit yazi herdr)
+    local packages=(zsh nvim git ohmyposh bat lazygit yazi herdr agents)
 
     if dotfiles_is_desktop; then
         packages+=(ghostty zed)
@@ -59,7 +59,7 @@ run_dotfiles_stow() {
     info "Stowing packages: ${packages[*]}"
     if ! (
         cd "$root" || exit 1
-        stow -v "${packages[@]}"
+        stow -v --ignore='\.DS_Store' --ignore='settings\.local\.json' "${packages[@]}"
     ); then
         error "stow failed — resolve conflicts in \$HOME, then re-run stow from $root"
     fi
