@@ -23,5 +23,6 @@ setup_paperdb() {
         warning "Could not clone $PAPERDB_LIBRARY_REMOTE (GitHub SSH key set up?); run \`paperdb init $PAPERDB_LIBRARY_REMOTE\` later"
     fi
 
-    "$bin" skill install
+    # Into the stowed skills dir: stow runs later and would conflict with a real ~/.claude/skills
+    "$bin" skill install "$DOTFILES_ROOT/agents/.agents/skills/paperdb"
 }

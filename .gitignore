@@ -13,3 +13,4 @@ agents/.cursor/*
 agents/.claude/*
 !agents/.claude/skills
 agents/.agents/skills/synced/
+agents/.agents/skills/paperdb/
