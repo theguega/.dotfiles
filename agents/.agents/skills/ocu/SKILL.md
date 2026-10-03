@@ -1,6 +1,6 @@
 ---
-name: opalin-clickup
-description: Use for any of Theo's ClickUp work at Opalin — OKRs (deadlines, describe, comment, update progress), finding any document or task by text, ML experiment pages in the ML wiki, weekly summaries, what teammates are doing, Triage, next tasks in a space, creating docs/pages. Use the `ocu` CLI (not ClickUp MCP tools); it returns compact output.
+name: ocu
+description: ClickUp (Opalin workspace) through the `ocu` CLI. Use whenever the user mentions ClickUp or anything that lives in it — OKRs (deadlines, describe, comment, update progress), tasks and comments, searching any doc or task by text, ML experiment pages in the ML wiki, weekly meeting summaries, what teammates are doing, Triage, next tasks in a space, creating docs or pages. Use `ocu` instead of ClickUp MCP tools.
 ---
 
 # ClickUp via `ocu`
